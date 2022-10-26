@@ -16,9 +16,12 @@ export class PorPaisComponent {
 
   }
 
-  buscar() {
+  buscar( termino: string ) {
+
     this.hayError = false;
-    this.paisService.buscarPais(this.termino)
+    this.termino = termino;
+
+    this.paisService.buscarPais( termino )
     .subscribe( (paises) => {
 
       console.log(paises)
@@ -31,6 +34,10 @@ export class PorPaisComponent {
 
     }
     );
-    console.log(this.termino)
+  }
+  
+  sugerencias(termino: string) {
+    this.hayError = false;
+    this.termino = termino;
   }
 }
