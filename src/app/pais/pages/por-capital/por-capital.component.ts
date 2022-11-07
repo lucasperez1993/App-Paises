@@ -10,7 +10,9 @@ export class PorCapitalComponent {
 
   termino: string = '';
   hayError: boolean = false;
+  mostrarSugerencias: boolean = false;
   paises: Country[] = [];
+  paisesSugeridos: Country[] = [];
 
   constructor(private paisService: PaisService){
 
@@ -23,21 +25,28 @@ export class PorCapitalComponent {
 
     this.paisService.buscarCapital( termino )
     .subscribe( (paises) => {
-
-      console.log(paises)
       this.paises = paises;
-
     }, (err) => {
-
       this.hayError = true;
       this.paises = [];
-
     }
     );
   }
   
   sugerencias(termino: string) {
     this.hayError = false;
+    this.termino = termino;
+    this.mostrarSugerencias = true;
+
+    this.paisService.buscarCapital(termino)
+        .subscribe(paises => this.paisesSugeridos = paises.splice(0,5),
+        (err) => 
+          this.paisesSugeridos = []
+        );
+  }
+
+  buscarSugerido(termino: string){
+    this.buscar(termino);
   }
 
 }
